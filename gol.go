@@ -77,21 +77,76 @@ func main() {
 		}
 	}
 	//initialize starting alive cells
-	space[5][5] = 1
-	space[5][6] = 1
-	space[6][5] = 1
-	space[6][6] = 1
-	space[2][3] = 1
-	space[8][9] = 1
-	space[4][5] = 1
-	space[6][2] = 1
-	space[2][4] = 1
-	space[7][9] = 1
-	space[7][8] = 1
-	space[0][3] = 1
-	space[2][7] = 1
 
-	for r := 0; r < 100; r++ {
+
+	var userInputX int
+	var userInputY int
+	var userInputEnd string
+	var userInputIterations int
+	// User input for Starting Alive cells
+
+	userInputEnd = "y"
+	userInputX = 0
+	userInputY = 0
+
+	for userInputEnd != "n" {
+
+		fmt.Println("Enter coords of starting alive cells (between 0 and 9)")
+
+		for {
+			fmt.Println("Enter X:")
+				_, errX := fmt.Scanf("%d", &userInputX)
+				if errX != nil {
+					panic(errX)
+				}
+			if userInputX < 0 || userInputX > 9 {
+				//values should not be in this range
+				fmt.Println("Coordinate inputed is less than 0 or greater than 9. Try again.")
+			} else {
+				//values should be in this range
+				// correct value entered breaking out of loop to head to Y value input
+				break
+			}					
+		}		
+		
+		for {
+			fmt.Println("Enter Y:")
+				_, errY := fmt.Scanf("%d", &userInputY)
+				if errY != nil {
+					panic(errY)
+				}
+			if userInputY < 0 || userInputY > 9 {
+				//values should not be in this range
+				fmt.Println("Coordinate inputed is less than 0 or greater than 9. Try again.")
+			} else {
+				//values should be in this range
+				// correct value entered breaking out of loop to head to Y value input
+				break
+			}					
+		}
+		
+		space[userInputX][userInputY] = 1
+		fmt.Println("Cell (",userInputX,",",userInputY,") is ALIVE!!!!")
+		fmt.Println("Do you want to add more cells? (y or n):")
+
+		_, err := fmt.Scanf("%s", &userInputEnd)
+		if err != nil {
+			panic(err)
+		}
+
+	}
+
+	fmt.Println("Successfully exited.\n","How many times should the simulation iterate?")
+	fmt.Println("Enter number > 0:")
+
+	_, err := fmt.Scanf("%d", &userInputIterations)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Starting simulation; iterating through", userInputIterations, "times.")
+
+	for r := 0; r < userInputIterations; r++ {
 		fmt.Println("Iteration:", r, "-----------------------\b \b")
 		printSpace(space)
 		space = updateSpace(space)
